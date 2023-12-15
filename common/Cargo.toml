@@ -7,7 +7,7 @@ edition = "2018"
 [dependencies]
 lazy_static = "1.4"
 curve25519-dalek = { version = "1", features = ["serde"] }
-secp256k1 = { version = "0.17.2", features = ["recovery"] }
+secp256k1 = { version = "0.22.2", features = ["recovery", "rand"] }
 #libsm = "0.3.0"
 libsm = { path = "../libsm/" }
 failure = "0.1"

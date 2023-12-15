@@ -1,16 +1,14 @@
-use super::WeDPRSecp256k1;
 use super::WeDPRSecp256k1Recover;
 
 use super::Signature;
-use crate::hash::keccak256;
 use common::constant::{SECP256K1_OBJ, SECP256K1_VERIFY};
 use common::error::WedprError;
 use common::utils;
 use rand;
 
 use secp256k1::{
-    recovery::{RecoverableSignature, RecoveryId},
-    Message, PublicKey, Secp256k1, SecretKey, Signature as Secp256k1Signature,
+    ecdsa::{RecoverableSignature, RecoveryId},
+    Message, PublicKey, SecretKey,
 };
 
 macro_rules! crate_string_to_point {
@@ -62,7 +60,7 @@ impl Signature for WeDPRSecp256k1Recover {
             }
         };
         let message_send = Message::from_slice(&msg_hash).expect("32 bytes");
-        let sig = SECP256K1_OBJ.sign_recoverable(&message_send, &secret_key);
+        let sig = SECP256K1_OBJ.sign_ecdsa_recoverable(&message_send, &secret_key);
         let (recid, signature_bytes) = &sig.serialize_compact();
         let mut vec_sig = signature_bytes.to_vec();
         vec_sig.push(recid.to_i32() as u8);
@@ -117,7 +115,8 @@ impl Signature for WeDPRSecp256k1Recover {
                 return false;
             }
         };
-        let pk_recover_get = match SECP256K1_VERIFY.recover(&message_receive, &get_sign_final) {
+        let pk_recover_get = match SECP256K1_VERIFY.recover_ecdsa(&message_receive, &get_sign_final)
+        {
             Ok(v) => v,
             Err(_) => {
                 wedpr_println!("signature recover failed");
@@ -134,12 +133,14 @@ impl Signature for WeDPRSecp256k1Recover {
     fn generate_keypair(&self) -> (String, String) {
         loop {
             // let secp = secp256k1::Secp256k1::new();
-            let mut rng = try_generate_seed();
-            let (secret_key, public_key) = SECP256K1_OBJ.generate_keypair(&mut rng);
+            // let mut rng = try_generate_seed();
+            let (secret_key, public_key) =
+                SECP256K1_OBJ.generate_keypair(&mut secp256k1::rand::thread_rng());
             if secret_key[0] > 15 {
                 return (
                     utils::bytes_to_string(&public_key.serialize_uncompressed().to_vec()),
-                    secret_key.to_string(),
+                    utils::bytes_to_string(&secret_key.secret_bytes()),
+                    // secret_key.to_string(),
                 );
             }
         }

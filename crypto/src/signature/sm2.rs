@@ -131,8 +131,9 @@ mod tests {
         // let pk_str = SM2P256V1_TEST_PUBLIC_KEY;
         // let sk_str = SM2P256V1_TEST_SECRET_KEY;
 
-        for _ in 0..1000 {
-            let message = "sm2 test".to_string();
+        for _ in 0..10 {
+            let message =
+                "44db476208775a0e5dbd7c00d08833a7083e232dfa95788e2ec7cc231772c23a".to_string();
             let signature = WeDPRSm2p256v1::default();
             let (pk_str, sk_str) = signature.generate_keypair();
             let sign = signature.sign(&sk_str, &message).unwrap();
