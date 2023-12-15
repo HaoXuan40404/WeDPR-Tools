@@ -1,13 +1,12 @@
 extern crate curve25519_dalek;
 use curve25519_dalek::ristretto::RistrettoPoint;
-use curve25519_dalek::{ristretto, scalar::Scalar};
+use curve25519_dalek::{scalar::Scalar};
 extern crate rand;
 extern crate sha3;
 use super::hash::keccak256_hex;
 use super::utils as local_utils;
 use common::constant::G1_BASEPOINT;
 use common::error::WedprError;
-use common::utils;
 use rand::thread_rng;
 use sha3::Sha3_512;
 

@@ -289,11 +289,11 @@ mod tests {
         let pk = "0436f3570c796c7589a150a4d8a3de37cef15f30e141ca9a7e3162d9c2e3edb4e8db2326fe5489fdbe4ce7931779b727242f7df19c0a773f101417616e7776e789";
         let msg = "847adcf9b24cf0041ddff02ffe324e30b1271c5170086f8ee799dd1123dacb2e";
 
-        let dec = "BFaUOdWt1k5tOHt6iXkvzvuAQinsEYzSAt1fWQFtGSLwk6hEXYGcazsHQ4mZlElw2+rEit8fxfdm/l+zy839I52LUshVuHjfFgrHdsMkaJydZVRzOQfclKujPf34F2voFM7RAiw36GpHmmJIOWsLlfFWNTBB6BKta3gDfPNVdYsT";
+        // let dec = "BFaUOdWt1k5tOHt6iXkvzvuAQinsEYzSAt1fWQFtGSLwk6hEXYGcazsHQ4mZlElw2+rEit8fxfdm/l+zy839I52LUshVuHjfFgrHdsMkaJydZVRzOQfclKujPf34F2voFM7RAiw36GpHmmJIOWsLlfFWNTBB6BKta3gDfPNVdYsT";
 
-        //        let encrypt_data = ecies_secp256k1_encrypt(pk, msg).unwrap();
+        let encrypt_data = ecies_secp256k1_encrypt(pk, msg).unwrap();
         //        let decrypt_data = ecies_secp256k1_decrypt(sk, &encrypt_data).unwrap();
-        let decrypt_data = ecies_secp256k1_decrypt(sk, dec).unwrap();
+        let decrypt_data = ecies_secp256k1_decrypt(sk, &encrypt_data).unwrap();
         wedpr_println!("decrypt_data = {}", decrypt_data);
         assert_eq!(&decrypt_data, msg)
     }

@@ -24,7 +24,7 @@ pub fn bytes_to_string<T: ?Sized + AsRef<[u8]>>(input: &T) -> String {
     hex::encode(input)
 }
 
-/// Decodes a base64-encoded string to bytes.
+/// Decodes a hex string to bytes.
 pub fn string_to_bytes(input: &str) -> Result<Vec<u8>, WedprError> {
     match hex::decode(input) {
         Ok(v) => return Ok(v),

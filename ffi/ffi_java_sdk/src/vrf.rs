@@ -58,7 +58,7 @@ pub extern "system" fn Java_com_webank_wedpr_crypto_NativeInterface_curve25519VR
             return utils::set_error_jobject(&_env, &jobject_result, "jni vrfProof decode failed");
         }
     };
-    let vrf_verify_result = crypto::curve_25519_vrf::curve25519_vrf_verify(
+    vrf_verify_result = crypto::curve_25519_vrf::curve25519_vrf_verify(
         &vrf_public_key,
         &vrf_input,
         &vrf_proof_object,
